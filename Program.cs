@@ -3,7 +3,12 @@ var app = builder.Build();
 
 app.MapGet("/",  (ctx) =>
 {
-    return ctx.Response.WriteAsync(ctx.Connection.RemoteIpAddress.ToString());
+    var callerIp = ctx.Connection.RemoteIpAddress.ToString();
+    if (ctx.Request.Headers.TryGetValue("X-Forwarded-For", out var forwardedFor))
+    {
+        callerIp = forwardedFor.ToString();
+    }
+    return ctx.Response.WriteAsync(callerIp);
 });
 
 app.Run();
