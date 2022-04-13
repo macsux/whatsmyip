@@ -1,0 +1,5 @@
+---
+applications:
+- name: whatsmyip
+  memory: 128M
+  buildpack: dotnet_core_buildpack
